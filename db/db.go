@@ -12,11 +12,9 @@ import (
 
 // NewDB create db instance
 func NewDB() *gorm.DB {
-	if os.Getenv("GO_ENV") == "dev" {
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatalln(err)
-		}
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalln(err)
 	}
 	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s",
 		os.Getenv("POSTGRES_USER"),
