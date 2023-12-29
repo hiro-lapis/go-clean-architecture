@@ -12,18 +12,18 @@ import (
 
 // NewDB create db instance
 func NewDB() *gorm.DB {
-	if os.Getenv(("GO_ENV")) == "dev" {
+	if os.Getenv("GO_ENV") == "dev" {
 		err := godotenv.Load()
 		if err != nil {
 			log.Fatalln(err)
 		}
 	}
 	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s",
-		os.Getenv("POSTRES_USER"),
-		os.Getenv("POSTRES_PW"),
-		os.Getenv("POSTRES_HOST"),
-		os.Getenv("POSTRES_PORT"),
-		os.Getenv("POSTRES_DB"),
+		os.Getenv("POSTGRES_USER"),
+		os.Getenv("POSTGRES_PW"),
+		os.Getenv("POSTGRES_HOST"),
+		os.Getenv("POSTGRES_PORT"),
+		os.Getenv("POSTGRES_DB"),
 	)
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 	if err != nil {
