@@ -16,3 +16,8 @@ content-type: application/json
     "email": "user@hoge.com",
     "password": "testtest"
 }
+
+### ログアウト
+
+POST http://localhost:8080/logout HTTP/1.1
+content-type: application/json
