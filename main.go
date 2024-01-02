@@ -20,5 +20,5 @@ func main() {
 	userController := controller.NewUserConteroller(userUseCase)
 	// IUserControllerを満たすコントローラーをルーターに渡す
 	e := router.NewRouter(userController)
-	e.Logger.Fatal(e.Start(":80"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
