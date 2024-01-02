@@ -1,3 +1,6 @@
+###
+###  before test, dont forget run GO_ENV=dev go run main.go
+###
 
 POST http://localhost:8080/signup HTTP/1.1
 content-type: application/json
