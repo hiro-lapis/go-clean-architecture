@@ -18,15 +18,22 @@ type userRepository struct {
 	db *gorm.DB
 }
 
-// constructor
-func NewUserRepository(db *gorm.DB) IUserRepository {
-	return &userRepository(db)
-}
-
 // GetByEmail is a method that gets a user by email.
 func (ur *userRepository) GetUserByEmail(user *model.User, email string) error {
 	if err := ur.db.Where("email=?", email).First(user).Error; err != nil {
 		return err
 	}
 	return nil
+}
+
+func (ur *userRepository) CreateUser(user *model.User) error {
+	if err := ur.db.Create(user).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// constructor
+func NewUserRepository(db *gorm.DB) IUserRepository {
+	return &userRepository{db}
 }
