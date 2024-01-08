@@ -14,11 +14,14 @@ func main() {
 	db := db.NewDB()
 	// DB接続をリポジトリに渡す
 	userRepository := repository.NewUserRepository(db)
-	// IUserRepositoryを満たすリポジトリをユースケースに渡す
-	userUseCase := usecase.NewUserUseCase(userRepository)
-	// IUserUsecaseを満たすユースケースをコントローラーに渡す
-	userController := controller.NewUserConteroller(userUseCase)
-	// IUserControllerを満たすコントローラーをルーターに渡す
-	e := router.NewRouter(userController)
+	taskRepository := repository.NewTaskRepository(db)
+	// 各種InterfaceRepositoryを満たすリポジトリ実装をユースケースに渡す
+	userUsecase := usecase.NewUserUsecase(userRepository)
+	taskUsecase := usecase.NewTaskUsecase(taskRepository)
+	// 各種IUsecaseを満たすユースケースをコントローラーに渡す
+	userController := controller.NewUserConteroller(userUsecase)
+	taskController := controller.NewTaskController(taskUsecase)
+	// 各種IControllerを満たすコントローラーをルーターに渡す
+	e := router.NewRouter(userController, taskController)
 	e.Logger.Fatal(e.Start(":8080"))
 }

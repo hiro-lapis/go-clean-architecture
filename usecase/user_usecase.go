@@ -72,8 +72,8 @@ func (uu *userUsecase) Login(user model.User) (string, error) {
 	return tokenStrign, nil
 }
 
-// NewUserUseCase is a function that returns a userUsecase struct.
+// NewUserUsecase is a function that returns a userUsecase struct.
 // interfaceを実装したリポジトリを引数にとり,interfaceを実装したusercaseの実クラスを返す関数
-func NewUserUseCase(ur repository.IUserRepository) IUserUsecase {
+func NewUserUsecase(ur repository.IUserRepository) IUserUsecase {
 	return &userUsecase{ur}
 }
