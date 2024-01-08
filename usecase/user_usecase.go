@@ -56,6 +56,10 @@ func (uu *userUsecase) Login(user model.User) (string, error) {
 		return "", err
 	}
 	// 4. create token value  with userID, exp
+	// claims:トークン内の情報種別
+	// Registered Claims(予約済): exp, iat, nbf, jtiなど
+	// Public Claims(公開): iss, aud, subなど
+	// Private Claims(非公開): その他
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": storedUser.ID,
 		"exp":     time.Now().Add(time.Hour * EXP_HOUR).Unix(),
@@ -68,8 +72,8 @@ func (uu *userUsecase) Login(user model.User) (string, error) {
 	return tokenStrign, nil
 }
 
-// NewUserUseCase is a function that returns a userUsecase struct.
+// NewUserUsecase is a function that returns a userUsecase struct.
 // interfaceを実装したリポジトリを引数にとり,interfaceを実装したusercaseの実クラスを返す関数
-func NewUserUseCase(ur repository.IUserRepository) IUserUsecase {
+func NewUserUsecase(ur repository.IUserRepository) IUserUsecase {
 	return &userUsecase{ur}
 }
