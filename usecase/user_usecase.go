@@ -3,6 +3,7 @@ package usecase
 import (
 	"clean-architecture/model"
 	"clean-architecture/repository"
+	"clean-architecture/validator"
 	"os"
 	"time"
 
@@ -23,6 +24,7 @@ type IUserUsecase interface {
 // userUsecase is a struct that implements the IUserUsecase interface.
 type userUsecase struct {
 	ur repository.IUserRepository
+	uv validator.IUserValidator
 }
 
 func (uu *userUsecase) SignUp(user model.User) (model.UserResponse, error) {
