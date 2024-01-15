@@ -14,8 +14,8 @@ type ITaskUsecase interface {
 	DeleteTask(userId, taskId uint) error
 }
 
-func NewTaskUsecase(tr repository.ITaskRepository) ITaskUsecase {
-	return &taskUsecase{tr}
+func NewTaskUsecase(tr repository.ITaskRepository, tv validator.ITaskValidator) ITaskUsecase {
+	return &taskUsecase{tr, tv}
 }
 
 type taskUsecase struct {
