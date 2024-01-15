@@ -3,6 +3,7 @@ package usecase
 import (
 	"clean-architecture/model"
 	"clean-architecture/repository"
+	"clean-architecture/validator"
 )
 
 type ITaskUsecase interface {
@@ -19,6 +20,7 @@ func NewTaskUsecase(tr repository.ITaskRepository) ITaskUsecase {
 
 type taskUsecase struct {
 	tr repository.ITaskRepository
+	tv validator.ITaskValidator
 }
 
 func (tu *taskUsecase) GetAllTasks(userId uint) ([]model.TaskResponse, error) {
