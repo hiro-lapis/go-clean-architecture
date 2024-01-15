@@ -3,6 +3,7 @@ package usecase
 import (
 	"clean-architecture/model"
 	"clean-architecture/repository"
+	"clean-architecture/validator"
 )
 
 type ITaskUsecase interface {
@@ -13,12 +14,13 @@ type ITaskUsecase interface {
 	DeleteTask(userId, taskId uint) error
 }
 
-func NewTaskUsecase(tr repository.ITaskRepository) ITaskUsecase {
-	return &taskUsecase{tr}
+func NewTaskUsecase(tr repository.ITaskRepository, tv validator.ITaskValidator) ITaskUsecase {
+	return &taskUsecase{tr, tv}
 }
 
 type taskUsecase struct {
 	tr repository.ITaskRepository
+	tv validator.ITaskValidator
 }
 
 func (tu *taskUsecase) GetAllTasks(userId uint) ([]model.TaskResponse, error) {
