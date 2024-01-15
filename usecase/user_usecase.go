@@ -3,6 +3,7 @@ package usecase
 import (
 	"clean-architecture/model"
 	"clean-architecture/repository"
+	"clean-architecture/validator"
 	"os"
 	"time"
 
@@ -23,6 +24,7 @@ type IUserUsecase interface {
 // userUsecase is a struct that implements the IUserUsecase interface.
 type userUsecase struct {
 	ur repository.IUserRepository
+	uv validator.IUserValidator
 }
 
 func (uu *userUsecase) SignUp(user model.User) (model.UserResponse, error) {
@@ -31,8 +33,13 @@ func (uu *userUsecase) SignUp(user model.User) (model.UserResponse, error) {
 	if err != nil {
 		return model.UserResponse{}, err
 	}
-	// 2. create new user by using model, and pass it to repository
+	// 2-1. create new user by using model
 	newUser := model.User{Email: user.Email, Password: string(hash)}
+	// 2-2. pass it to validator
+	if err := uu.uv.UserValidate(newUser); err != nil {
+		return model.UserResponse{}, err
+	}
+	// 2-3. pass it to repository
 	if err := uu.ur.CreateUser(&newUser); err != nil {
 		return model.UserResponse{}, err
 	}
@@ -45,7 +52,11 @@ func (uu *userUsecase) SignUp(user model.User) (model.UserResponse, error) {
 }
 
 func (uu *userUsecase) Login(user model.User) (string, error) {
-	// 1. for assign check target user, prepare user model
+	// 1-1.validation
+	if err := uu.uv.UserValidate(user); err != nil {
+		return "", err
+	}
+	// 1-2. for assign check target user, prepare user model
 	storedUser := model.User{}
 	// 2. get user by email
 	if err := uu.ur.GetUserByEmail(&storedUser, user.Email); err != nil {
@@ -74,6 +85,6 @@ func (uu *userUsecase) Login(user model.User) (string, error) {
 
 // NewUserUsecase is a function that returns a userUsecase struct.
 // interfaceを実装したリポジトリを引数にとり,interfaceを実装したusercaseの実クラスを返す関数
-func NewUserUsecase(ur repository.IUserRepository) IUserUsecase {
-	return &userUsecase{ur}
+func NewUserUsecase(ur repository.IUserRepository, uv validator.IUserValidator) IUserUsecase {
+	return &userUsecase{ur, uv}
 }

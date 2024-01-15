@@ -6,6 +6,7 @@ import (
 	"clean-architecture/repository"
 	"clean-architecture/router"
 	"clean-architecture/usecase"
+	"clean-architecture/validator"
 )
 
 // entry point
@@ -15,9 +16,12 @@ func main() {
 	// DB接続をリポジトリに渡す
 	userRepository := repository.NewUserRepository(db)
 	taskRepository := repository.NewTaskRepository(db)
+	// バリデーション構造体の初期化
+	userValidator := validator.NewUserValidator()
+	taskValidator := validator.NewTaskValidator()
 	// 各種InterfaceRepositoryを満たすリポジトリ実装をユースケースに渡す
-	userUsecase := usecase.NewUserUsecase(userRepository)
-	taskUsecase := usecase.NewTaskUsecase(taskRepository)
+	userUsecase := usecase.NewUserUsecase(userRepository, userValidator)
+	taskUsecase := usecase.NewTaskUsecase(taskRepository, taskValidator)
 	// 各種IUsecaseを満たすユースケースをコントローラーに渡す
 	userController := controller.NewUserConteroller(userUsecase)
 	taskController := controller.NewTaskController(taskUsecase)
