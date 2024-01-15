@@ -46,6 +46,9 @@ func (tu *taskUsecase) GetAllTasks(userId uint) ([]model.TaskResponse, error) {
 }
 
 func (tu *taskUsecase) CreateTask(task model.Task) (model.TaskResponse, error) {
+	if err := tu.tv.TaskValidate(task); err != nil {
+		return model.TaskResponse{}, err
+	}
 	if err := tu.tr.CreateTask(&task); err != nil {
 		return model.TaskResponse{}, err
 	}
@@ -75,6 +78,9 @@ func (tu *taskUsecase) GetTaskById(userId, taskId uint) (model.TaskResponse, err
 }
 
 func (tu *taskUsecase) UpdateTask(task model.Task, userId, taskId uint) (model.TaskResponse, error) {
+	if err := tu.tv.TaskValidate(task); err != nil {
+		return model.TaskResponse{}, err
+	}
 	if err := tu.tr.UpdateTask(&task, userId, taskId); err != nil {
 		return model.TaskResponse{}, err
 	}
