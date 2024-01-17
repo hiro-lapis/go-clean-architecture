@@ -63,3 +63,50 @@
 4-5. main.goにてvalidator instancication, constructro引数に渡す  
 
 * 4-2において、基本的に依存は不要。DB利用時のみgormを入れる  
+
+# frontend
+
+## Setup
+1. this project using pnpm, then run below code
+
+```
+pnpm create create-react-app@latest front --template typescript
+```
+*create-react-app* is officially supported way to create single-page React applications. It offers a modern build setup with no configuration.  
+if you are interested in options, checck [here](https://create-react-app.dev/docs/getting-started#selecting-a-template)!  
+
+2. reinstall pnpm
+
+pnpm is ignored, installing with generate package.json.  
+then, delete package.json and node_modules.  
+
+and, reinstall.
+
+```
+pnpm i
+```
+
+3. test dev server
+
+```
+pnpm start
+```
+
+if you encounter error, `Property 'toBeInTheDocument' does not exist on type 'JestMatchers<HTMLElement>'.`  
+then, try below.
+
+```
+pnpm i @types/testing-library__jest-dom
+```
+＊install is required above [^6.2.0](https://github.com/testing-library/jest-dom/issues/442#issuecomment-1888145410)
+
+4. add dependencies 
+
+also recommend 
+```
+@tanstack/react-query@4.28.0
+@tanstack/react-query-devtools@4.28.0
+zustand@4.3.6
+@heroicons/react@2.0.16
+react-router-dom@6.10.0 axios@1.3.4
+```
