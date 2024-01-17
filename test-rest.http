@@ -2,9 +2,23 @@
 ###  before test, dont forget run below command
 ###  GO_ENV=dev go run main.go
 ###
+### Jet Brainsエディタでも拡張機能が入ってないと変数がつかえないので注意
 
+
+@baseUrl = http://localhost:8080
+### csrf-token取得
+
+# @name csrf
+GET {{baseUrl}}/csrf HTTP/1.1
+content-type: application/json
+
+###
+@token = {{csrf.response.body.$.csrf_token}}
+
+###
 POST http://localhost:8080/signup HTTP/1.1
 content-type: application/json
+X-CSRF-Token: {{token}}
 
 {
     "email": "user@hoge.com",
@@ -15,6 +29,7 @@ content-type: application/json
 
 POST http://localhost:8080/login HTTP/1.1
 content-type: application/json
+X-CSRF-Token: {{token}}
 
 {
     "email": "user@hoge.com",
@@ -25,10 +40,10 @@ content-type: application/json
 
 POST http://localhost:8080/logout HTTP/1.1
 content-type: application/json
+X-CSRF-Token: {{token}}
 
 ### タスク一覧
 
 GET http://localhost:8080/tasks HTTP/1.1
 content-type: application/json
-
-###
+X-CSRF-Token: {{token}}

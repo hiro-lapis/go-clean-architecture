@@ -16,6 +16,7 @@ type IUserController interface {
 	SignUp(c echo.Context) error
 	Login(c echo.Context) error
 	LogOut(c echo.Context) error
+	CsrfToken(c echo.Context) error
 }
 
 // UserController is a struct for user controller
@@ -95,4 +96,13 @@ func (uc *UserController) LogOut(e echo.Context) error {
 	cookie.SameSite = http.SameSiteNoneMode
 	e.SetCookie(cookie)
 	return e.NoContent(http.StatusOK)
+}
+
+func (uc *UserController) CsrfToken(c echo.Context) error {
+	// contextからcsrfトークンを発行
+	token := c.Get("csrf").(string)
+	// レスポンスで発行
+	return c.JSON(http.StatusOK, echo.Map{
+		"csrf_token": token,
+	})
 }
