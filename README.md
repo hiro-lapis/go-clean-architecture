@@ -104,9 +104,12 @@ pnpm i @types/testing-library__jest-dom
 
 also recommend 
 ```
-@tanstack/react-query@4.28.0
-@tanstack/react-query-devtools@4.28.0
-zustand@4.3.6
-@heroicons/react@2.0.16
-react-router-dom@6.10.0 axios@1.3.4
+pnpm i @tanstack/react-query
+pnpm i @tanstack/react-query-devtools
+pnpm i zustand
+pnpm i @heroicons/react
+pnpm i react-router-dom
+pnpm i axios
+pnpm i -D tailwindcss
+npx tailwindcss init
 ```
