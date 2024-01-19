@@ -77,8 +77,8 @@ if you are interested in options, checck [here](https://create-react-app.dev/doc
 
 2. reinstall pnpm
 
-pnpm is ignored, installing with generate package.json.  
-then, delete package.json and node_modules.  
+pnpm is ignored, installing with generate package-lock.json.  
+then, delete package-lock.json and node_modules.  
 
 and, reinstall.
 
