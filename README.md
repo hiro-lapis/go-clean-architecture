@@ -113,3 +113,4 @@ pnpm i axios
 pnpm i -D tailwindcss
 npx tailwindcss init
 ```
+tailwindcss required set up. do [this](https://tailwindcss.com/docs/guides/create-react-app)
