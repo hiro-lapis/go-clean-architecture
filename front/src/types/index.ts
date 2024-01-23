@@ -1,4 +1,4 @@
-export type Task {
+export type Task = {
     id: number
     title: string
     descripition: string
@@ -6,11 +6,11 @@ export type Task {
     updated_at: Date
 }
 
-export type CsrfToken {
+export type CsrfToken = {
     csrf_token: string
 }
 
-export type Credential {
+export type Credential = {
     email: string
     password: string
 }
