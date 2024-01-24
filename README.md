@@ -114,3 +114,8 @@ pnpm i -D tailwindcss
 npx tailwindcss init
 ```
 tailwindcss required set up. do [this](https://tailwindcss.com/docs/guides/create-react-app)
+
+
+### library
+
+- [tanstack](https://tanstack.com/query/latest/docs/react/overview): data fetching library, also can caching, synchronizing and updating server state
