@@ -22,6 +22,11 @@ export const useMutateAuth = () => {
    *   onSettled　// optional:mutationFnが成功・失敗した時に実行される関数
    * })
    * @link https://tanstack.com/query/v5/docs/react/reference/useMutation
+   *
+   * 非同期は使わず、ハンドリング関数を利用するでOK
+   * @link https://zenn.dev/taisei_13046/books/133e9995b6aadf/viewer/257b1a#mutate%E3%81%A8mutateasync%E3%81%AE%E4%BD%BF%E3%81%84%E5%88%86%E3%81%91
+   *
+   * nuxt apollo client composables を使う時の関数を自前で実装するイメージ
    */
   const loginMutation = useMutation({
     mutationFn: (user: Credential) => {
