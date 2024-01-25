@@ -1,63 +1,70 @@
 import axios from 'axios'
+// router
 import { useNavigate } from 'react-router-dom'
+// update async state
 import { useMutation } from '@tanstack/react-query'
 import useStore from '../store'
 import { Credential } from '../types'
-import { useError } from '../hooks/useError'
+import { useError } from './useError'
 
 export const useMutateAuth = () => {
   const navigate = useNavigate()
   const resetEditedTask = useStore((state) => state.resetEditedTask)
   const { errorHandling } = useError()
-  const loginMutation = useMutation(
-    async (user: Credential) =>
-      await axios.post<{name: string}>(`${process.env.REACT_APP_API_URL}/login`, user),
-    {
-      onSuccess: () => {
-        navigate('/todo')
-      },
-      onError: (err: any) => {
-        if (err.response.data.message) {
-          errorHandling(err.response.data.message)
-        } else {
-          errorHandling(err.response.data)
-        }
-      },
-    }
-  )
-  const registerMutation = useMutation(
-    async (user: Credential) =>
-      await axios.post(`${process.env.REACT_APP_API_URL}/signup`, user),
-    {
-      // onSuccess: () => {
-      //   navigate('/todo')
-      // },
-      onError: (err: any) => {
-        if (err.response.data.message) {
-          errorHandling(err.response.data.message)
-        } else {
-          errorHandling(err.response.data)
-        }
-      },
-    }
-  )
-  const logoutMutation = useMutation(
-    async (user: Credential) =>
-      await axios.post(`${process.env.REACT_APP_API_URL}/logout`, user),
-    {
-      onSuccess: () => {
-        resetEditedTask()
-        navigate('/')
-      },
-      onError: (err: any) => {
-        if (err.response.data.message) {
-          errorHandling(err.response.data.message)
-        } else {
-          errorHandling(err.response.data)
-        }
-      },
-    }
-  )
+
+  /**
+   * 以下のオプション関数を定義
+   * useMutation({
+   *   mutationFn　// required: 非同期関数
+   *   onMutate,   // optional:mutationFnが実行される前に実行される関数
+   *   onSuccess,　// optional:mutationFnが成功した時に実行される関数
+   *   onError,　 // optional:mutationFnが失敗した時に実行される関数
+   *   onSettled　// optional:mutationFnが成功・失敗した時に実行される関数
+   * })
+   * @link https://tanstack.com/query/v5/docs/react/reference/useMutation
+   */
+  const loginMutation = useMutation({
+    mutationFn: (user: Credential) => {
+      return axios.post<{name: string}>(`${process.env.REACT_APP_API_URL}/login`, user)
+    },
+    onSuccess: () => navigate('/todo'),
+    onError: (err: any) => {
+      if (err.response.data.message) {
+        errorHandling(err.response.data.message)
+      } else {
+        errorHandling(err.response.data)
+      }
+    },
+  })
+  const registerMutation = useMutation({
+    mutationFn: (user: Credential) => {
+      return axios.post<{name: string}>(`${process.env.REACT_APP_API_URL}/signup`, user)
+    },
+    onSuccess: () => navigate('/todo'),
+    onError: (err: any) => {
+      if (err.response.data.message) {
+        errorHandling(err.response.data.message)
+      } else {
+        errorHandling(err.response.data)
+      }
+    },
+  })
+  const logoutMutation = useMutation({
+    mutationFn: (user: Credential) => {
+      return axios.post<{name: string}>(`${process.env.REACT_APP_API_URL}/signup`, user)
+    },
+    onSuccess: () => {
+      resetEditedTask()
+      navigate('/todo')
+    },
+    onError: (err: any) => {
+      if (err.response.data.message) {
+        errorHandling(err.response.data.message)
+      } else {
+        errorHandling(err.response.data)
+      }
+    },
+  })
 
   return {
     loginMutation,
