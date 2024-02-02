@@ -25,4 +25,4 @@ const useStore = create<State>((set) => ({
     resetEditedTask: () => set({ editedTask: { id: 0, title: '', description: ''}})
 }))
 
-// export default useStore
+export default useStore
