@@ -66,6 +66,16 @@
 
 # frontend
 
+## directory
+
+```
+└── src
+    ├── components
+    ├── hooks
+    ├── store
+    └── types
+```
+
 ## Setup
 1. this project using pnpm, then run below code
 
@@ -118,4 +128,11 @@ tailwindcss required set up. do [this](https://tailwindcss.com/docs/guides/creat
 
 ### library
 
-- [tanstack](https://tanstack.com/query/latest/docs/react/overview): data fetching library, also can caching, synchronizing and updating server state
+- [tanstack react query](https://tanstack.com/query/latest/docs/react/overview): data fetching library, also can caching, synchronizing and mutation, updating server state
+
+resource:[TanStack Query　〜プロダクトで採用するための勘所〜](https://zenn.dev/taisei_13046/books/133e9995b6aadf/viewer/257b1a)
+
+## FAQ
+
+Q. How solve `Network Error AxiosError: Network Error` when `pnpm start`?
+A. run backend server.
