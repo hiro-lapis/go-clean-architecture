@@ -28,22 +28,22 @@ type userUsecase struct {
 }
 
 func (uu *userUsecase) SignUp(user model.User) (model.UserResponse, error) {
-	// 1. convert plain password to hash
+	// 2-1. pass input to validator
+	if err := uu.uv.UserValidate(user); err != nil {
+		return model.UserResponse{}, err
+	}
+	// 2-2. convert plain password to hash
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), 10)
 	if err != nil {
 		return model.UserResponse{}, err
 	}
-	// 2-1. create new user by using model
+	// 2-3. create new user by using model
 	newUser := model.User{Email: user.Email, Password: string(hash)}
-	// 2-2. pass it to validator
-	if err := uu.uv.UserValidate(newUser); err != nil {
-		return model.UserResponse{}, err
-	}
-	// 2-3. pass it to repository
+	// 3. pass it to repository
 	if err := uu.ur.CreateUser(&newUser); err != nil {
 		return model.UserResponse{}, err
 	}
-	// 3. create response
+	// 4. create response
 	resUser := model.UserResponse{
 		ID:    newUser.ID,
 		Email: newUser.Email,
